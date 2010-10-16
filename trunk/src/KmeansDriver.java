@@ -27,7 +27,7 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.util.GenericOptionsParser;
 //import org.apache.jasper.tagplugins.jstl.core.Set;
 
-public class Kmeans {
+public class KmeansDriver {
 	
 	private static HashMap<String,ArrayList<Float>> meansCluster= new HashMap<String,ArrayList<Float>>();
     
@@ -105,60 +105,12 @@ public class Kmeans {
 }
 	
 
-  public static class TokenizerMapper extends Mapper<LongWritable, Text, Text, ArrayList<String>>{
-    
-    //private coord.TextArrayWritable();
-    private Text word = new Text();
-    //private FloatWritable coord1 = new FloatWritable();
-    private Text coord1= new Text();  
-    
-        
+ 
     
     
     
-    
-    public void map(LongWritable key, Text value, OutputCollector<Text,Text> output, Reporter reporter) throws IOException, InterruptedException {
-      
-    	//setto arraylist coordinate    
-    	
-      ArrayList<String> coordinate= new ArrayList<String>();
-      //divido in token la prima riga del file
-      StringTokenizer itr = new StringTokenizer(value.toString());
-      //setto il primo token come key (num point)
-      String key_add=itr.nextElement().toString();
-      //meansCluster.set(key_add);
-      
-      word.set(key_add);
-      Text out= new Text();
-      
-      
-        //coord1.set(itr.nextElement().toString());
-      while (itr.hasMoreTokens()) {
-          coordinate.add(itr.nextToken().toString());
-          //out.set(out.toString() + " "+ itr.nextToken().toString());
-          output.collect(new Text(word),new Text(itr.nextToken().toString()));
-      }
-      System.out.println("Key: "+ key_add + "Coord: "+ coordinate.toString());
-       
-     // output.collect(word, out);
-      
-          
-    }
-  }
   
-  public static class IntSumReducer extends Reducer<Text,Text,Text,Text> {
-	  
-    private Text result = new Text();
-
-    public void reduce(Text key, Text values,Context context) throws IOException, InterruptedException {
-      //Text sum = new Text();
-     // for (Text val : values) {
-       // sum = val;
-     // }
-     // result.set(sum);
-      context.write(key, values);
-    }
-  }
+ 
 
   public static void main(String[] args) throws Exception {
     Configuration conf = new Configuration();
@@ -170,10 +122,10 @@ public class Kmeans {
     Job job = new Job(conf,"Kmeans");
     //mio
     job.setJobName("Kmeans_Unicondor");
-    job.setJarByClass(Kmeans.class);
-    job.setMapperClass(TokenizerMapper.class);
+    job.setJarByClass(KmeansDriver.class);
+    job.setMapperClass(KmeansMapper.class);
    // job.setCombinerClass(IntSumReducer.class);
-    job.setReducerClass(IntSumReducer.class);
+    job.setReducerClass(KmeansReducer.class);
     //job.setOutputKeyClass(Text.class);
    // job.setOutputValueClass(FloatWritable.class);
   //  job.setInputFormatClass(TextInputFormat.class);
