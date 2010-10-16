@@ -126,8 +126,6 @@ public class KmeansDriver {
     job.setMapperClass(KmeansMapper.class);
    // job.setCombinerClass(IntSumReducer.class);
     job.setReducerClass(KmeansReducer.class);
-    //job.setOutputKeyClass(Text.class);
-   // job.setOutputValueClass(FloatWritable.class);
   //  job.setInputFormatClass(TextInputFormat.class);
     //job.setOutputFormat(TextOutputFormat.class);
     job.setOutputKeyClass(Text.class);
