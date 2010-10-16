@@ -35,11 +35,7 @@ public class KmeansDriver {
 	public static void configure() {
         try {
                 
-                
-                
-        	
-
-            
+        	           
              ByteArrayOutputStream byte1=new ByteArrayOutputStream();
              PrintStream out2 = new PrintStream(byte1);
              
@@ -84,8 +80,7 @@ public class KmeansDriver {
                 		}  
                 	
                 	
-                   //System.out.println("DEBUG "+meansCluster.toString());
-
+                  
             
                 } 
                 finally {
